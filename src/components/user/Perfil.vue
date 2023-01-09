@@ -6,6 +6,7 @@
 </template>
 
 <script>
+
     export default {
         name: 'Perfil',
         props: ['avatar', 'login']
