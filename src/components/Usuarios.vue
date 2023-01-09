@@ -1,26 +1,31 @@
 <template>
     <div id="users-list">
-        <div class="users-row">
-            <img :src="avatarUser" alt="Avatar">
-            <p>{{ loginUser }}</p>
+        <div class="users-row" v-for="(usuario, index) in usuarios" :key="index" @click="setarIndex(usuario.id)">
+            <img :src="usuario.avatar_url" alt="Avatar"  >
+            <p>{{ usuario.login }}</p>
+            <p>{{ usuario.id }}</p>
         </div>
-        <div class="users-row">
-            <p>Usuario 2</p>
-        </div>
-        <div class="users-row">
-            <p>Usuario 3</p>
-        </div>
+        
     </div>
 </template>
 
 <script>
-
     export default {
         name: 'UsuariosView',
+        data() {
+            return {
+                index: null
+            }
+        },
         props: {
-            loginUser: String,
-            avatarUser: String
+            usuarios: Array,
+            setarIndex: Function
+        },
+        emits: ['setarId'],
+        methods: {
+
         }
+
     }
 </script>
 
@@ -38,6 +43,7 @@
         /* padding: 13px; */
 
         display: flex;
+        cursor: pointer;
     }
 
     .users-row img {
