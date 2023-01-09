@@ -13,12 +13,12 @@
 
             </form>
         </section>
-        <section v-else-if="!usuarioSelecionadoId">
-            <Usuarios :usuarios="usuarios" :setarIndex="setarIndex" />
+        <section v-else-if="!usuarioSelecionado">
+            <Usuarios :usuarios="usuarios" :setarUsuario="setarUsuario" />
         </section>
 
         <section v-else>
-            <UsuarioSelecionado />
+            <UsuarioSelecionado  :usuario="usuarioSelecionado"/>
         </section>
     </div>
 </template>
@@ -28,7 +28,6 @@ import Banner from './Banner.vue'
 import Usuarios from './Usuarios.vue'
 import UsuarioSelecionado from './UsuarioSelecionado.vue'
 import axios from 'axios'
-
 export default {
     name: 'SearchForm',
     components: { Banner, Usuarios, UsuarioSelecionado },
@@ -36,26 +35,20 @@ export default {
         return {
             pesquisa: '',
             usuarios: [],
-            usuarioSelecionadoId: null
+            usuarioSelecionado: null 
         }
     },
-
     methods: {
-
         // Pesquisa usuarios com o valor do input
         searchUsuario(e) {
-
             e.preventDefault()
-
             const dataSearched = this.pesquisa
             this.getUsuarios(dataSearched)
         },
-
         // Retorna a lista de usuários achados com o valor da pesquisa
         getUsuarios(user) {
             axios.get(`https://api.github.com/search/users?q=${user}&page=1`)
                 .then(res => {
-
                     const usersList = res.data.items
                     this.usuarios = usersList
                 })
@@ -63,12 +56,11 @@ export default {
                     alert(error)
                 })
         },
+        // seta o valor de usuarioSelecionado
+        setarUsuario(usuario) {
+            this.usuarioSelecionado = usuario
+        },
 
-        // altera o valor de usuarioSelecionadoId 
-        setarIndex(index, usuario) {
-            this.usuarioSelecionadoId = index
-        }
-        // função para puxar as informações e repositorios do usuário
     },
 }
 </script>
@@ -78,11 +70,9 @@ export default {
     margin-top: 50px;
     padding: 10px;
 }
-
 .button-container {
     margin-bottom: 20px
 }
-
 .button-container button {
     margin-inline: 20.5px;
     width: 185px;
@@ -95,18 +85,15 @@ export default {
     transition: .5s;
     cursor: pointer;
 }
-
 .button-container button:hover {
     background-color: #000;
     color: #fff;
 }
-
 .search-container {
     display: flex;
     justify-content: center;
     padding: 20px;
 }
-
 .search-container input {
     border: 2px solid #000;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

@@ -1,9 +1,8 @@
 <template>
     <div id="users-list">
-        <div class="users-row" v-for="(usuario, index) in usuarios" :key="index" @click="setarIndex(usuario.id)">
+        <div class="users-row" v-for="(usuario, index) in usuarios" :key="index" @click="setarUsuario(usuario)">
             <img :src="usuario.avatar_url" alt="Avatar"  >
             <p>{{ usuario.login }}</p>
-            <p>{{ usuario.id }}</p>
         </div>
         
     </div>
@@ -19,13 +18,8 @@
         },
         props: {
             usuarios: Array,
-            setarIndex: Function
+            setarUsuario: Function
         },
-        emits: ['setarId'],
-        methods: {
-
-        }
-
     }
 </script>
 

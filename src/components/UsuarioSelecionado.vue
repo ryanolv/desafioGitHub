@@ -1,7 +1,7 @@
 <template>
     <div id="user-container">
-        <Perfil />
-        <Repositorios />
+        <Perfil :login="usuario.login" :avatar="usuario.avatar_url"/>
+        <Repositorios :login="usuario.login"/>
     </div>
 </template>
 
@@ -10,8 +10,11 @@
     import Repositorios from '@/components/user/Repositorios.vue'
 
     export default {
-        name: 'ThisUserView',
-        components: { Perfil, Repositorios }
+        name: 'UsuarioSelecionado',
+        components: { Perfil, Repositorios },
+        props: {
+            usuario: Object
+        },
     }
 </script>
 

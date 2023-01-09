@@ -1,21 +1,38 @@
 <template>
     <div id="list-container">
-        <div class="row-container">
-            <h1>Title 1</h1>
-            <p>description 1</p>
-            <p>x stars</p>
-        </div>
-        <div class="row-container">
-            <h1>Title 2</h1>
-            <p>description 2</p>
-            <p>y stars</p>
+        <div class="row-container" v-for="(repositorio, index) in repositorios" :key="index">
+            <h1>{{ repositorio.name }}</h1>
+            <p>{{ repositorio.description }}</p>
+            <p>{{ repositorio.stargazers_count }} stars</p>
         </div>
     </div>
 </template>
 
 <script>
+
+    import axios from 'axios'
+
     export default {
-        name: 'Repositorios'
+        name: 'Repositorios',
+        data() {
+            return {
+                repositorios: null
+            }
+        },
+        props: ['login'],
+        methods: {
+            // Resgata os repertórios do usuário selecionado 
+            getRepositorios(user) {
+                axios.get(`https://api.github.com/users/${user}/repos?direction=desc`)
+                .then(res => {
+                    this.repositorios = res.data
+                })
+                .catch(error => alert(error))
+            }
+        },
+        mounted() {
+            this.getRepositorios(this.login)
+        }
     }
 </script>
 
